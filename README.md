@@ -1,12 +1,13 @@
 # 📝 Daily To-Do List
 
-A simple and interactive daily to-do list application built with Next.js and React, designed to help you manage your daily tasks efficiently. This to-do list includes features such as adding, updating, marking tasks as completed, setting task priority, and clearing all tasks with a confirmation dialog. It also supports data persistence using local storage.
+A simple and interactive daily to-do list application built with Next.js and React, designed to help you manage your daily tasks efficiently. This to-do list includes features such as adding, updating, marking tasks as completed, setting task priority, dark mode, and clearing all tasks with a confirmation dialog. It also supports data persistence using local storage.
 
 ## ✨ Features
 - **➕ Add Tasks**: Easily add new tasks to your list.
 - **✏️ Update Tasks**: Modify existing tasks with updated content.
 - **✅ Mark as Completed**: Mark tasks as completed, automatically moving them to the bottom.
-- **⭐ Priority Setting**: Clear the entire list with a confirmation dialog.
+- **⭐ Priority Setting**: Toggle between "High" and "Low" priority for tasks, with high-priority tasks displayed above low-priority tasks.
+- **🌙 Dark Mode**: Switch between light and dark mode to reduce eye strain.
 - **🗑️ Clear All Tasks**: Clear the entire list with a confirmation dialog.
 - **💾 Data Persistence**: Saves your tasks in local storage, so your list remains available even after refreshing.
 

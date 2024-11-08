@@ -10,17 +10,20 @@ export default function Home() {
   const [taskList, settaskList] = useState([]);
   const [editTask, seteditTask] = useState(null);
   const [clearAll, setclearAll] = useState(false);
+  const [darkMode, setdarkMode] = useState(false);
 
   // Form submit method
   const submitForm = (e) => {
     e.preventDefault();
     if (task.trim()) {
-      const updatedTaskList = [...taskList, { text: task, status: false ,priority:1}];
+      const updatedTaskList = [
+        ...taskList,
+        { text: task, status: false, priority: 1 },
+      ];
       // move the completed task to bottom
-      const sortedTaskList = updatedTaskList.sort((a,b)=>{
-        if(a.status!==b.status) 
-          return a.status-b.status;
-        return a.priority-b.priority;
+      const sortedTaskList = updatedTaskList.sort((a, b) => {
+        if (a.status !== b.status) return a.status - b.status;
+        return a.priority - b.priority;
       });
       settaskList(sortedTaskList);
       settask("");
@@ -63,7 +66,7 @@ export default function Home() {
     localStorage.setItem("taskList", JSON.stringify(taskList));
   }, [taskList]);
 
-  const color="#63E6BE"
+  const color = "#63E6BE";
   // Delete the Task
   const deleteTask = (i) => {
     const updatedTaskList = [...taskList];
@@ -72,33 +75,50 @@ export default function Home() {
   };
 
   // Update Priority
-  const updatePriority=(index)=>{
-    const updatedList=taskList.map((t,i)=>
-      i===index?{...t,priority:t.priority===1?2:1}:t
-    )
-    updatedList.sort((a,b)=>{
-      if(a.status!==b.status)
-        return a.status-b.status;
-      return b.priority-a.priority;
-    })
+  const updatePriority = (index) => {
+    const updatedList = taskList.map((t, i) =>
+      i === index ? { ...t, priority: t.priority === 1 ? 2 : 1 } : t
+    );
+    updatedList.sort((a, b) => {
+      if (a.status !== b.status) return a.status - b.status;
+      return b.priority - a.priority;
+    });
     settaskList(updatedList);
-  }
+  };
+  const darkModeColor="#172437";
 
   return (
     <div
-      className={` bg-blue-50 flex items-center w-screen h-screen justify-center p-4 sm:p-10 `}
+      className={` flex items-center w-screen bg-blue-50 h-screen justify-center p-4 sm:p-10`} style={{ backgroundColor: darkMode ? "#172437" : "" }}
+
     >
-      <div className="bg-white rounded-3xl xl:p-10 w-full sm:w-11/12 p-5 lg:w-9/12  min-h-5/6 h-5/6 flex flex-col shadow-xl lg:px-40 md:px-20 sm:px-10 xl:px-56">
-        <h1 className="sm:text-5xl text-4xl font-bold text-blue-950 sm:mb-10 mb-5">
+      <div className={` rounded-3xl xl:p-10 w-full sm:w-11/12 p-5 lg:w-9/12  min-h-5/6 h-5/6 flex flex-col shadow-xl lg:px-40 md:px-20 sm:px-10 xl:px-56 ${darkMode?"bg-slate-800":"bg-white"}`}>
+        <div className="ml-auto block">
+          <button
+            onClick={() => {
+              setdarkMode(!darkMode);
+            }}
+            className={`  rounded-full px-3 py-2 transition-all ${darkMode?"bg-white ":"bg-blue-950"}`}
+          >
+            <i
+              className={
+                ` fa-regular text-xl transition-all ${darkMode?"fa-sun text-blue-950":"fa-moon text-white"}
+              ` }
+            >
+             
+            </i>
+          </button>
+        </div>
+        <h1 className={`sm:text-5xl text-4xl font-bold  sm:mb-10 mb-5 ${darkMode?"text-white":"text-blue-950"}`}>
           Daily To Do List
         </h1>
         <form
           onSubmit={submitForm}
-          className="flex border h-12 sm:h-14 border-gray-200 rounded-md font-medium justify-between p-1 mb-"
+          className="flex border h-12 sm:h-14 border-gray-200 rounded-md font-medium justify-between p-1 mb-2"
         >
           <input
             placeholder="Add new list item"
-            className="text-md font-normal text-gray-300 outline-none focus:text-black w-3/4 ml-4 sm:mt-2 my-2"
+            className={`text-md font-normal text-gray-300 outline-none focus:text-black w-3/4 ml-4 sm:mt-2 my-2 ${darkMode?"text-white bg-slate-800 focus:text-white":""}`}
             value={task}
             onChange={(e) => {
               settask(e.target.value);
@@ -113,7 +133,7 @@ export default function Home() {
         </form>
         <div className="mb-4 flex-grow overflow-y-auto">
           {taskList.length === 0 ? (
-            <p className="text-lg font-medium ml-3 transition-all mt-4">
+            <p className={`text-lg font-medium ml-3 transition-all mt-4  ${darkMode?"text-white":"text-black"}`}>
               No tasks yet
             </p>
           ) : (
@@ -123,7 +143,7 @@ export default function Home() {
                   key={i}
                   className={`flex transition-all duration-500 ${
                     t.status ? "opacity-50" : "opacity-100"
-                  } m-4 text-lg`}
+                  } m-4 text-lg ${darkMode?"text-white":"text-black"}`}
                 >
                   <button onClick={() => taskCompleted(i)}>
                     <i
@@ -137,18 +157,30 @@ export default function Home() {
                   </button>
                   <span
                     className={`text-xl sm:text-2xl pb-3 ${
-                      t.status ? "line-through text-gray-600" : ""
+                      t.status ? "line-through text-slate-400" : ""
                     } hover:text-blue-600 transition-all font-medium flex-grow`}
                   >
                     {t.text}
                   </span>
                   {t.status === false && (
-                    
-                    <button onClick={()=>{updatePriority(i)}} ><i className={`mr-2 ${t.priority===1?"fa-regular fa-star":"fa-solid fa-star"}`}
-                    style={{color:t.priority===2? "#FFD43B": "inherit"}}></i></button>
+                    <button
+                      onClick={() => {
+                        updatePriority(i);
+                      }}
+                    >
+                      <i
+                        className={`mr-2 transition-all ${
+                          t.priority === 1
+                            ? "fa-regular fa-star"
+                            : "fa-solid fa-star"
+                        }`}
+                        style={{
+                          color: t.priority === 2 ? "#FFD43B" : "inherit",
+                        }}
+                      ></i>
+                    </button>
                   )}
                   {t.status === false && (
-                    
                     <button
                       onClick={() => {
                         seteditTask(i);
@@ -171,6 +203,8 @@ export default function Home() {
                       editTask={editTask}
                       updateTask={updateTask}
                       seteditTask={seteditTask}
+                      darkMode={darkMode}
+                      setdarkMode={setdarkMode}
                     />
                   )}
                 </li>
@@ -193,6 +227,8 @@ export default function Home() {
               clearTask={clearTask}
               setclearAll={setclearAll}
               clearAll={clearAll}
+              darkMode={darkMode}
+              setdarkMode={setdarkMode}
             />
           )}
         </div>
