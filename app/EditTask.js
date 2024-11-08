@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-const Edittask = ({ t, i, editTask, updateTask, seteditTask ,darkMode,setdarkMode}) => {
+const Edittask = ({ t, i, editTask, updateTask, seteditTask ,darkMode}) => {
   const [newText, setnewtext] = useState(t.text);
   return (
-    <div className="bg-slate-500 fixed top-0 bottom-0 left-0 right-0 flex w-full h-full justify-center items-center  bg-opacity-40">
-      <div className={`sm:w-1/2 sm:h-1/4 w-10/12  px-5 pb-5 pt-2 p sm:px-10 sm:pt-4 sm:pb-4 ${darkMode?"bg-slate-800":"bg-white"}`}>
+    <div className="bg-slate-800 fixed top-0 bottom-0 left-0 right-0 flex w-full h-full justify-center items-center  bg-opacity-40">
+      <div className={`sm:w-1/2 sm:h-1/4 w-10/12  px-5 pb-5 pt-2 p sm:px-10 sm:pt-4 sm:pb-4 bg-opacity-100 ${darkMode?"bg-slate-800":"bg-white"}`}>
         <button
           className="block ml-auto cursor-pointer hover:text-red-500 text-xl transition-all"
           onClick={() => {

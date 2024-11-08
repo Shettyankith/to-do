@@ -204,7 +204,6 @@ export default function Home() {
                       updateTask={updateTask}
                       seteditTask={seteditTask}
                       darkMode={darkMode}
-                      setdarkMode={setdarkMode}
                     />
                   )}
                 </li>
@@ -228,7 +227,6 @@ export default function Home() {
               setclearAll={setclearAll}
               clearAll={clearAll}
               darkMode={darkMode}
-              setdarkMode={setdarkMode}
             />
           )}
         </div>
