@@ -15,11 +15,13 @@ export default function Home() {
   const submitForm = (e) => {
     e.preventDefault();
     if (task.trim()) {
-      const updatedTaskList = [...taskList, { text: task, status: false }];
+      const updatedTaskList = [...taskList, { text: task, status: false ,priority:1}];
       // move the completed task to bottom
-      const sortedTaskList = updatedTaskList.sort(
-        (a, b) => a.status - b.status
-      );
+      const sortedTaskList = updatedTaskList.sort((a,b)=>{
+        if(a.status!==b.status) 
+          return a.status-b.status;
+        return a.priority-b.priority;
+      });
       settaskList(sortedTaskList);
       settask("");
     }
@@ -33,13 +35,13 @@ export default function Home() {
 
   // Task completed function
   const taskCompleted = (index) => {
-    const updatedTaskList = taskList.map((t, i) =>
-      i === index ? { ...t, status: !t.status } : t
-    );
-
-    // move the completed task to bottom
-    const sortedTaskList = updatedTaskList.sort((a, b) => a.status - b.status);
-    settaskList(sortedTaskList);
+    const updatedTaskList = taskList
+      .map((t, i) => (i === index ? { ...t, status: !t.status } : t))
+      .sort((a, b) => {
+        if (a.status !== b.status) return a.status - b.status;
+        return b.priority - a.priority;
+      });
+    settaskList(updatedTaskList);
   };
 
   // Update the task
@@ -68,6 +70,19 @@ export default function Home() {
     updatedTaskList.splice(i, 1);
     settaskList(updatedTaskList);
   };
+
+  // Update Priority
+  const updatePriority=(index)=>{
+    const updatedList=taskList.map((t,i)=>
+      i===index?{...t,priority:t.priority===1?2:1}:t
+    )
+    updatedList.sort((a,b)=>{
+      if(a.status!==b.status)
+        return a.status-b.status;
+      return b.priority-a.priority;
+    })
+    settaskList(updatedList);
+  }
 
   return (
     <div
@@ -128,6 +143,12 @@ export default function Home() {
                     {t.text}
                   </span>
                   {t.status === false && (
+                    
+                    <button onClick={()=>{updatePriority(i)}} ><i className={`mr-2 ${t.priority===1?"fa-regular fa-star":"fa-solid fa-star"}`}
+                    style={{color:t.priority===2? "#FFD43B": "inherit"}}></i></button>
+                  )}
+                  {t.status === false && (
+                    
                     <button
                       onClick={() => {
                         seteditTask(i);
